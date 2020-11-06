@@ -8,11 +8,11 @@ import 'package:todos_ddd/domain/auth/value_objects.dart';
 // FirebaseAuth, GoogleSignIn
 abstract class IAuthFacade {
   //we cannot return void from right side. We use conveniece from darts package
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPAssword({
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     @required EmailAddress emailAddress,
     @required Password password,
   });
-  Future<Either<AuthFailure, Unit>> signInWithEmailAndPAssword({
+  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
     @required EmailAddress emailAddress,
     @required Password password,
   });
