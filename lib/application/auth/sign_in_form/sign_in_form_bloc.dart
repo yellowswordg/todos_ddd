@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
@@ -45,6 +44,9 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
       isSubmitting: false,
       showErrorMessages: true,
       authFailureOrSuccessOption: optionOf(failureOrSuccess),
+      //same code but longer below
+      // authFailureOrSuccessOption:
+      //     failureOrSuccess == null ? none() : some(failureOrSuccess),
     );
   }
 
@@ -56,12 +58,14 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
       emailChange: (e) async* {
         yield state.copyWith(
           emailAddress: EmailAddress(e.emailStr),
+          // this part will reser response from the server if thre was previous error.
           authFailureOrSuccessOption: none(),
         );
       },
       passwordChanged: (e) async* {
         yield state.copyWith(
           password: Password(e.passwordStr),
+          // this part will reser response from the server if thre was previous error.
           authFailureOrSuccessOption: none(),
         );
       },
@@ -76,6 +80,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
       signInWithGooglePressed: (e) async* {
         yield state.copyWith(
           isSubmitting: true,
+          // resets previous response
           authFailureOrSuccessOption: none(),
         );
         final failureOrSuccess = await _authFacade.signInWithGoogle();

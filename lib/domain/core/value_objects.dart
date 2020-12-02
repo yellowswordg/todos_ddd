@@ -12,8 +12,11 @@ abstract class ValueObject<T> {
 
   /// Throws [UnexpectedValueError] containing the [ValueFailure]
   T getOrCrash() {
+    // errors reserve for unrecoverable state, errors lay in core
     //id == identity same as writing (right)=> right, method from darz
     return value.fold((f) => throw UnexpectedValueError(f), id);
+    // same as above. We used Identity from dartz id is a function. it receive something and
+    // return value.fold((f) => throw UnexpectedValueError(f), (r) => r);
   }
 
   bool isValid() => value.isRight();
