@@ -17,6 +17,8 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
   if (input.length >= 6) {
     return right(input);
   } else {
-    return left(ValueFailure.invalidEmail(failedValue: null));
+    return left(
+      ValueFailure.shortPassword(failedValue: null),
+    );
   }
 }

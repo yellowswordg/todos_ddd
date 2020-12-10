@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:todos_ddd/domain/auth/auth_failure.dart';
 import 'package:todos_ddd/domain/auth/i_auth_facade.dart';
 import 'package:todos_ddd/domain/auth/value_objects.dart';
@@ -12,6 +13,7 @@ part 'sign_in_form_event.dart';
 part 'sign_in_form_state.dart';
 part 'sign_in_form_bloc.freezed.dart';
 
+@injectable
 class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   SignInFormBloc(this._authFacade) : super(SignInFormState.initial());
 
@@ -40,13 +42,11 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
         password: state.password,
       );
     }
+
     yield state.copyWith(
       isSubmitting: false,
       showErrorMessages: true,
       authFailureOrSuccessOption: optionOf(failureOrSuccess),
-      //same code but longer below
-      // authFailureOrSuccessOption:
-      //     failureOrSuccess == null ? none() : some(failureOrSuccess),
     );
   }
 
@@ -55,7 +55,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     SignInFormEvent event,
   ) async* {
     yield* event.map(
-      emailChange: (e) async* {
+      emailChanged: (e) async* {
         yield state.copyWith(
           emailAddress: EmailAddress(e.emailStr),
           // this part will reser response from the server if thre was previous error.
@@ -65,7 +65,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
       passwordChanged: (e) async* {
         yield state.copyWith(
           password: Password(e.passwordStr),
-          // this part will reser response from the server if thre was previous error.
+          // this part will reset response from the server if thre was previous error.
           authFailureOrSuccessOption: none(),
         );
       },
