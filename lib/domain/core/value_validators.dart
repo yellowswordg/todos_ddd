@@ -1,7 +1,50 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos_ddd/domain/auth/value_objects.dart';
+import 'package:kt_dart/kt.dart';
 
 import 'failures.dart';
+
+// If Failure is feature specific you  should put it in folder with that feature
+
+Either<ValueFailure<String>, String> validateMaxStringLength(
+    String input, int maxLength) {
+  if (input.length <= maxLength) {
+    return right(input);
+  } else {
+    return left(ValueFailure.exceedingLength(
+      failedValue: input,
+      max: maxLength,
+    ));
+  }
+}
+
+Either<ValueFailure<String>, String> validateStringNotEmpty(String input) {
+  if (input.isNotEmpty) {
+    return right(input);
+  } else {
+    return left(ValueFailure.empty(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validateSingleLine(String input) {
+  if (!input.contains('\n')) {
+    return right(input);
+  } else {
+    return left(ValueFailure.multiline(failedValue: input));
+  }
+}
+
+// KtList is immutable list from package
+Either<ValueFailure<KtList<T>>, KtList<T>> validateMaxListLength<T>(
+    KtList<T> input, int maxLength) {
+  if (input.size <= maxLength) {
+    return right(input);
+  } else {
+    return left(ValueFailure.exceedingLength(
+      failedValue: input,
+      max: maxLength,
+    ));
+  }
+}
 
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   const emailRegex =
@@ -9,7 +52,7 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   if (RegExp(emailRegex).hasMatch(input)) {
     return right(input);
   } else {
-    return left(ValueFailure.invalidEmail(failedValue: null));
+    return left(ValueFailure.invalidEmail(failedValue: input));
   }
 }
 
@@ -18,7 +61,7 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
     return right(input);
   } else {
     return left(
-      ValueFailure.shortPassword(failedValue: null),
+      ValueFailure.shortPassword(failedValue: input),
     );
   }
 }

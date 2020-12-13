@@ -3,7 +3,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:todos_ddd/domain/auth/auth_failure.dart';
-import 'package:todos_ddd/domain/auth/app_user.dart';
+import 'package:todos_ddd/domain/auth/user.dart';
 import 'package:todos_ddd/domain/auth/value_objects.dart';
 
 // FirebaseAuth, GoogleSignIn
@@ -17,7 +17,7 @@ abstract class IAuthFacade {
   // this fasade contract needs to be fulfilled
   //when we deal with specific implementation we go to infrastructure layer.
 
-  Future<Option<AppUser>> getSignedInUser();
+  Future<Option<User>> getSignedInUser();
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     @required EmailAddress emailAddress,
     @required Password password,

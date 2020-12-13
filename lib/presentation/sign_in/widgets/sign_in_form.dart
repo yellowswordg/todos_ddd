@@ -2,7 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos_ddd/application/auth/sign_in_form/sign_in_form_bloc.dart';
+import 'package:todos_ddd/application/auth/sign_in/sign_in_form_bloc.dart';
 
 class SignInForm extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class SignInForm extends StatelessWidget {
           (either) => either.fold((failure) {
             FlushbarHelper.createError(
               message: failure.map(
-                canceledByUser: (_) => 'Canceled',
+                cancelledByUser: (_) => 'Canceled',
                 serverError: (_) => 'Server Error',
                 emailAlreadyInUse: (_) => 'Email already in use',
                 invalidEmailAndPasswordCombination: (_) =>
@@ -29,6 +29,7 @@ class SignInForm extends StatelessWidget {
           // FIXME: find solution
           autovalidate: state.showErrorMessages,
           child: ListView(
+            padding: const EdgeInsets.all(10),
             children: [
               const Text(
                 '📝',
@@ -117,7 +118,13 @@ class SignInForm extends StatelessWidget {
                   'SIGN IN WITH GOOGLE',
                   style: TextStyle(color: Colors.white),
                 ),
-              )
+              ),
+              if (state.isSubmitting) ...[
+                const SizedBox(
+                  height: 8,
+                ),
+                const LinearProgressIndicator(value: null)
+              ]
             ],
           ),
         );

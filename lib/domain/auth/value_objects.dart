@@ -7,6 +7,7 @@ import 'package:todos_ddd/domain/core/value_validators.dart';
 
 @immutable
 class EmailAddress extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   // it's a difficult task to perform logic in constructor so we use factory instead
@@ -23,6 +24,7 @@ class EmailAddress extends ValueObject<String> {
 
 @immutable
 class Password extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   // it's a difficult task to perform logic in constructor so we use factory instead
