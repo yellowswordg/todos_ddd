@@ -54,29 +54,36 @@ class NoteColor extends ValueObject<Color> {
     Color(0xff997950), // tortilla
     Color(0xfffffdd0), // cream
   ];
+
   @override
   final Either<ValueFailure<Color>, Color> value;
+
   factory NoteColor(Color input) {
     assert(input != null);
     return NoteColor._(
       right(makeColorOpaque(input)),
     );
   }
+
   const NoteColor._(this.value);
 }
 
 class List3<T> extends ValueObject<KtList<T>> {
   @override
   final Either<ValueFailure<KtList<T>>, KtList<T>> value;
+
   static const maxLength = 3;
+
   factory List3(KtList<T> input) {
     assert(input != null);
-    return List3._(validateMaxListLength(input, maxLength));
+    return List3._(
+      validateMaxListLength(input, maxLength),
+    );
   }
+
   const List3._(this.value);
 
   int get length {
-    // function returns value whenever Failure presented in tte Either so we return an empty list
     return value.getOrElse(() => emptyList()).size;
   }
 
